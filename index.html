@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ALGO CAGE – Data Oracle</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050716;
+      --accent: #3cffd0;
+      --accent2: #ff4b81;
+      --text: #f5f5f7;
+      --muted: #8b8ca7;
+      --border: #20223a;
+      --codebg: #060821;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #151a3b 0, #050716 55%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* HEADER / HERO */
+
+    header {
+      margin-bottom: 2.5rem;
+    }
+
+    .logo {
+      letter-spacing: 0.24em;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .logo span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .hero-text {
+      max-width: 40rem;
+    }
+
+    .hero-badge {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      background-color: rgba(5, 7, 22, 0.9);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-badge::before {
+      content: "●";
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+
+    .hero-text h1 {
+      font-size: clamp(2.1rem, 4vw, 2.8rem);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-text p {
+      max-width: 36rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-actions {
+      margin-top: 1.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+      cursor: pointer;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 0.7rem 1.4rem;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: 0.18s ease-out all;
+    }
+
+    .btn-primary {
+      background: linear-gradient(120deg, var(--accent), #6af3ff);
+      color: #02030a;
+      font-weight: 600;
+      box-shadow: 0 0 25px rgba(60, 255, 208, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 35px rgba(60, 255, 208, 0.55);
+    }
+
+    .btn-ghost {
+      border-color: rgba(255, 255, 255, 0.15);
+      color: var(--muted);
+      background: rgba(5, 7, 22, 0.7);
+      text-decoration: none;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .hero-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+
+    .hero-meta strong {
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    /* MAIN LAYOUT & SECTIONS */
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+      margin-top: 2.2rem;
+    }
+
+    section {
+      background: rgba(5, 7, 22, 0.9);
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      padding: 1.3rem 1.4rem;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    section h2 {
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+    }
+
+    section p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .section-kicker {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    /* INTERFACE SPLIT LAYOUT */
+
+    .interface-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.1fr);
+      gap: 1.5rem;
+      margin-top: 1.1rem;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      .interface-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* INPUT PANEL (QUESTIONS) */
+
+    .input-panel {
+      padding-right: 0.2rem;
+    }
+
+    .field-group {
+      margin-bottom: 1.1rem;
+    }
+
+    .field-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      margin-bottom: 0.15rem;
+    }
+
+    .field-help {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.45rem;
+    }
+
+    .option-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .option {
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .option input {
+      display: none;
+    }
+
+    .option span {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--muted);
+      background: rgba(5, 7, 22, 0.8);
+      transition: 0.16s ease-out all;
+      white-space: nowrap;
+    }
+
+    .option input:checked + span {
+      border-color: var(--accent);
+      background: rgba(60, 255, 208, 0.12);
+      color: var(--accent);
+      box-shadow: 0 0 12px rgba(60, 255, 208, 0.4);
+    }
+
+    .field-small-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.7rem;
+    }
+
+    /* SCAN CARD / CONSOLE (RIGHT PANEL) */
+
+    .scan-card {
+      background: rgba(5, 7, 22, 0.85);
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      padding: 1rem 1.1rem;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(13, 19, 49, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+    }
+
+    .scan-heading {
+      font-size: 0.9rem;
+      margin-bottom: 0.1rem;
+    }
+
+    .scan-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.3rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .status-dot {
+      width: 0.6rem;
+      height: 0.6rem;
+      border-radius: 999px;
+      background: radial-gradient(
+        circle,
+        var(--accent) 0,
+        #00b398 55%,
+        transparent 70%
+      );
+      box-shadow: 0 0 8px rgba(60, 255, 208, 0.9);
+    }
+
+    .progress-bar {
+      height: 0.4rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .progress-inner {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 0.5s ease-out;
+    }
+
+    .console {
+      font-family: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Monaco,
+        monospace;
+      font-size: 0.78rem;
+      background: var(--codebg);
+      border-radius: 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.7rem 0.8rem;
+      max-height: 190px;
+      overflow: auto;
+      color: #e7f5ff;
+    }
+
+    .console-line {
+      margin-bottom: 0.15rem;
+      white-space: nowrap;
+    }
+
+    .console-prefix {
+      color: var(--accent);
+    }
+
+    .traits {
+      margin-top: 0.8rem;
+      border-radius: 0.7rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0.6rem 0.75rem;
+      background: rgba(9, 12, 34, 0.9);
+    }
+
+    .traits h3 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .trait-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.35rem;
+      font-size: 0.75rem;
+    }
+
+    .trait-label {
+      color: var(--muted);
+    }
+
+    .trait-value {
+      color: var(--accent2);
+      font-weight: 500;
+    }
+
+    .profile-lines {
+      margin-top: 0.7rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.78rem;
+      display: grid;
+      row-gap: 0.25rem;
+    }
+
+    .profile-line {
+      display: flex;
+      gap: 0.25rem;
+      flex-wrap: wrap;
+    }
+
+    .profile-line-label {
+      min-width: 110px;
+      color: var(--muted);
+    }
+
+    /* FORECAST SECTION */
+
+    #forecast ul {
+      list-style: disc;
+      margin-top: 0.6rem;
+      margin-left: 1.2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    #forecast ul li {
+      margin: 0.35rem 0;
+    }
+
+    #forecast-note {
+      margin-top: 0.7rem;
+      font-size: 0.85rem;
+    }
+
+    /* CROSS-MEDIA CARDS */
+
+    .story-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.9rem;
+      margin-top: 0.9rem;
+    }
+
+    .story-card {
+      border-radius: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.8rem 0.9rem;
+      background: rgba(11, 14, 36, 0.9);
+      font-size: 0.8rem;
+    }
+
+    .story-card h3 {
+      font-size: 0.85rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .story-card p {
+      font-size: 0.83rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--muted);
+      margin-top: 0.35rem;
+    }
+
+    .pill span {
+      width: 0.4rem;
+      height: 0.4rem;
+      border-radius: 999px;
+      background: var(--accent2);
+      margin-right: 0.35rem;
+    }
+
+    /* FOOTER / LEGALS */
+
+    footer.legals {
+      margin-top: 1.6rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: left;
+    }
+
+    footer.legals a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer.legals a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="hero-text">
+        <div class="logo"><span>ALGO CAGE</span> DATA ORACLE</div>
+        <div class="hero-badge">Fictional behavioural engine / Data divination</div>
+        <h1>Data Divination Console</h1>
+        <p>
+          Every click, search, and swipe becomes a data point. This fictional
+          interface shows how an algorithm might turn those traces into a
+          prediction – and a cage.
+        </p>
+
+        <div class="hero-actions">
+          <button id="jumpToInterface" class="btn-primary">Start scan</button>
+          <a class="btn-ghost" href="#how-it-works">
+            What the algorithm sees
+          </a>
+        </div>
+        <div class="hero-meta">
+          Part of the <strong>“Algorithmic Cage”</strong> transmedia project —
+          combining text, infographics, video, and this website.
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- 先：问卷 + Behavioural shadow console -->
+      <section id="interface">
+        <div class="section-kicker">Step 1 · Feed the model</div>
+        <h2>Offer a few clues and watch the gaps get filled</h2>
+        <p>
+          You don’t have to type anything real. Pick a few vague options and
+          let the engine construct a neat little version of you.
+        </p>
+
+        <div class="interface-grid">
+          <!-- LEFT: QUESTIONS -->
+          <div class="input-panel">
+            <div class="field-group">
+              <div class="field-label">Mood today</div>
+              <div class="field-help">
+                How would you summarise your baseline for the last few hours?
+              </div>
+              <div class="option-row">
+                <label class="option">
+                  <input type="radio" name="mood" value="calm" checked />
+                  <span>Calm</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="mood" value="tired" />
+                  <span>Tired</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="mood" value="overwhelmed" />
+                  <span>Overwhelmed</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="mood" value="excited" />
+                  <span>Excited</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="field-label">Screen time (today)</div>
+              <div class="field-help">
+                Roughly how long have you been on screens so far?
+              </div>
+              <div class="option-row">
+                <label class="option">
+                  <input type="radio" name="screen" value="lt3" checked />
+                  <span>&lt;3 hours</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="screen" value="3-6" />
+                  <span>3–6 hours</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="screen" value="6-9" />
+                  <span>6–9 hours</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="screen" value="9plus" />
+                  <span>9+ hours</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="field-label">Night owl pattern</div>
+              <div class="field-help">
+                How honest is your relationship with midnight?
+              </div>
+              <div class="option-row">
+                <label class="option">
+                  <input type="radio" name="night" value="no" checked />
+                  <span>I’m usually asleep before 00:00</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="night" value="depends" />
+                  <span>It depends on deadlines / exams</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="night" value="yes" />
+                  <span>Midnight is when I really start scrolling</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="field-label">Social energy</div>
+              <div class="field-help">
+                How are you dealing with messages and people today?
+              </div>
+              <div class="option-row">
+                <label class="option">
+                  <input type="radio" name="social" value="low" checked />
+                  <span>Barely replying to anyone</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="social" value="medium" />
+                  <span>Replying fast but not starting chats</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="social" value="high" />
+                  <span>Starting conversations everywhere</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="field-label">Today’s main content loop</div>
+              <div class="field-help">
+                What kind of content have you mostly consumed in the last 24h?
+              </div>
+              <div class="option-row">
+                <label class="option">
+                  <input type="radio" name="content" value="study" checked />
+                  <span>Study / work / productivity</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="content" value="short-video" />
+                  <span>Short video &amp; memes</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="content" value="gaming" />
+                  <span>Gaming &amp; gacha</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="content" value="travel" />
+                  <span>Travel &amp; “escape” content</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="field-label">Procrastination status</div>
+              <div class="field-help">
+                Be honest: how much are you avoiding by being here?
+              </div>
+              <div class="option-row">
+                <label class="option">
+                  <input type="radio" name="procrast" value="none" checked />
+                  <span>I’m fully on top of everything</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="procrast" value="light" />
+                  <span>Delayed a bit, but it’s fine</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="procrast" value="heavy" />
+                  <span>I am literally avoiding work with this</span>
+                </label>
+              </div>
+            </div>
+
+            <button id="runButton" class="btn-primary">Run model</button>
+            <p class="field-small-note">
+              You can run this multiple times. The model will happily update your label.
+            </p>
+          </div>
+
+          <!-- RIGHT: SCAN CARD / CONSOLE -->
+          <aside class="scan-card" aria-label="Behavioural scan console">
+            <div class="chip-row">
+              <div class="chip">Subject: <span id="chipSubject">#0000-00</span></div>
+              <div class="chip">Status: <span id="chipStatus">idle</span></div>
+              <div class="chip">Model: v3.2 behavioural</div>
+            </div>
+
+            <div class="scan-heading">Behavioural shadow console</div>
+            <div class="scan-status">
+              <span id="status-text">Idle – waiting for input.</span>
+              <span class="status-dot" aria-hidden="true"></span>
+            </div>
+            <div class="progress-bar" aria-hidden="true">
+              <div class="progress-inner" id="progressInner"></div>
+            </div>
+
+            <div
+              id="console"
+              class="console"
+              role="status"
+              aria-live="polite"
+              aria-label="synthetic log output"
+            >
+              <div class="console-line">
+                <span class="console-prefix">$</span> ready() →
+                awaiting behavioural samples...
+              </div>
+            </div>
+
+            <div class="traits">
+              <h3>Model prediction · next 30 days</h3>
+              <div class="trait-grid">
+                <div>
+                  <div class="trait-label">Sleep disruption risk</div>
+                  <div id="trait-sleep" class="trait-value">–</div>
+                </div>
+                <div>
+                  <div class="trait-label">Impulse buying potential</div>
+                  <div id="trait-impulse" class="trait-value">–</div>
+                </div>
+                <div>
+                  <div class="trait-label">Algorithmic anxiety</div>
+                  <div id="trait-anxiety" class="trait-value">–</div>
+                </div>
+                <div>
+                  <div class="trait-label">Travel escape desire</div>
+                  <div id="trait-travel" class="trait-value">–</div>
+                </div>
+              </div>
+
+              <div class="profile-lines">
+                <div class="profile-line">
+                  <span class="profile-line-label">Subject code:</span>
+                  <span id="subjectCode" class="trait-value">–</span>
+                </div>
+                <div class="profile-line">
+                  <span class="profile-line-label">Device + OS:</span>
+                  <span id="deviceSummary" class="trait-value">–</span>
+                </div>
+                <div class="profile-line">
+                  <span class="profile-line-label">Location guess:</span>
+                  <span id="locationSummary" class="trait-value">–</span>
+                </div>
+                <div class="profile-line">
+                  <span class="profile-line-label">Model confidence:</span>
+                  <span id="confidence" class="trait-value">–</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- 其次：FORECAST（仍然是在问卷之后显示） -->
+      <section id="forecast" style="display: none;">
+        <div class="section-kicker">Step 2 · Generated reading</div>
+        <h2>Next 30 days · behavioural forecast</h2>
+        <p>
+          Based on the tiny pattern you just offered to the model, this toy engine suggests:
+        </p>
+        <ul id="forecast-list"></ul>
+        <p id="forecast-note">
+          None of these lines required your real name – only a few vague choices,
+          mapped onto patterns learned from millions of other users.
+        </p>
+      </section>
+
+      <!-- 再：STORY LAYER 文本（位置与 console 对调后在下面） -->
+      <section id="how-it-works">
+        <div class="section-kicker">Story layer</div>
+        <h2>What the algorithm sees</h2>
+        <p>
+          You are not just a name. You are a trail of time stamps, devices,
+          swipes, pauses, and late-night searches. ALGO CAGE simulates how a
+          commercial prediction engine might turn that trail into:
+        </p>
+        <p style="margin-top: 0.4rem;">
+          – a unique internal code<br />
+          – a compact “data shadow” of your habits<br />
+          – a short-term forecast of what you are likely to do next
+        </p>
+        <p style="margin-top: 0.7rem;">
+          This page runs a simplified, fictional version of such a model. The
+          point is not accuracy. The point is how easy it is to pretend to know
+          you.
+        </p>
+      </section>
+
+      <!-- REFLECTION / WARNING -->
+      <section id="reflection">
+        <div class="section-kicker">Behind the curtain</div>
+        <h2>This is only a toy cage.</h2>
+        <p>
+          What you just saw was a stripped-down, fictional model running
+          inside a single web page. Real-world systems have access to far more:
+        </p>
+        <p style="margin-top: 0.4rem;">
+          – your long-term location history<br />
+          – your full device graph and contact network<br />
+          – your purchase records and loyalty cards<br />
+          – your survey answers, “anonymous” feedback, and leaked datasets
+        </p>
+        <p style="margin-top: 0.7rem;">
+          They don’t need to be perfect to be profitable. They just need to be
+          confident enough to price you, rank you, or quietly close a door.
+        </p>
+        <p style="margin-top: 0.7rem; color: var(--accent); font-weight: 600;">
+          If a one-page demo can write a mini report about you, imagine what a real
+          data broker can do.
+        </p>
+      </section>
+
+      <!-- CROSS-MEDIA LINKS -->
+      <section id="links">
+        <div class="section-kicker">Explore more</div>
+        <h2>The rest of the transmedia project</h2>
+        <p>
+          Each medium adds a different piece to the same narrative. Follow the
+          links below to move across the storyworld.
+        </p>
+
+        <div class="story-cards">
+          <div class="story-card">
+            <h3>User report: Pigred#20030603A1</h3>
+            <p>
+              A confidential ALGO CAGE™ internal document that dissects a
+              single user as pure data – movement logs, app usage, search
+              terms, and risk scores.
+            </p>
+            <div class="pill">
+              <span></span>Text / PDF
+            </div>
+          </div>
+
+          <div class="story-card">
+            <h3>Monitoring video</h3>
+            <p>
+              From a search bar to a global night map filled with online
+              silhouettes, this short video moves from the benefits of big data
+              to its more unsettling consequences.
+            </p>
+            <div class="pill">
+              <span></span>Film / Motion
+            </div>
+          </div>
+
+          <div class="story-card">
+            <h3>Infographic &amp; mind map</h3>
+            <p>
+              Visual dashboards and a data mind map that show how a single
+              human life can be broken into nodes: devices, locations,
+              relationships, and algorithmic labels.
+            </p>
+            <div class="pill">
+              <span></span>Visual / Diagram
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="legals">
+      This site is a fictional prototype for a university project of The University of Hong Kong,
+      Master of Arts in Creative Communications, course code ENGL7512. No personal data is actually
+      collected or stored. Design and text by <a href="#">Pigred</a>, 2025.
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const jumpBtn = document.getElementById("jumpToInterface");
+      const runBtn = document.getElementById("runButton");
+
+      const progressInner = document.getElementById("progressInner");
+      const statusText = document.getElementById("status-text");
+      const consoleBox = document.getElementById("console");
+      const chipSubject = document.getElementById("chipSubject");
+      const chipStatus = document.getElementById("chipStatus");
+
+      const traitSleep = document.getElementById("trait-sleep");
+      const traitImpulse = document.getElementById("trait-impulse");
+      const traitAnxiety = document.getElementById("trait-anxiety");
+      const traitTravel = document.getElementById("trait-travel");
+
+      const subjectCodeSpan = document.getElementById("subjectCode");
+      const deviceSummary = document.getElementById("deviceSummary");
+      const locationSummary = document.getElementById("locationSummary");
+      const confidenceSpan = document.getElementById("confidence");
+
+      const forecastSection = document.getElementById("forecast");
+      const forecastList = document.getElementById("forecast-list");
+
+      let scanning = false;
+
+      function getRadio(name) {
+        const el = document.querySelector('input[name="' + name + '"]:checked');
+        return el ? el.value : null;
+      }
+
+      function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function randomChoice(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+      }
+
+      function generateSubjectCode() {
+        let prefix = Math.floor(Math.random() * 0xffff)
+          .toString(16)
+          .toUpperCase()
+          .padStart(4, "0");
+        let suffix = Math.floor(Math.random() * 100)
+          .toString()
+          .padStart(2, "0");
+        return prefix + "-" + suffix;
+      }
+
+      function fakeIP() {
+        return (
+          randomInt(11, 223) +
+          "." +
+          randomInt(0, 255) +
+          "." +
+          randomInt(0, 255) +
+          "." +
+          randomInt(1, 254)
+        );
+      }
+
+      function fakeDevice() {
+        return randomChoice([
+          "iPhone 17 Pro Max",
+          "Unknown iOS device",
+          "High-end Android node",
+          "GlassOS wearable"
+        ]);
+      }
+
+      function fakeOS() {
+        return randomChoice(["iOS 19", "Android 16", "GlassOS"]);
+      }
+
+      function fakeCity() {
+        return randomChoice([
+          "a dense coastal metropolis",
+          "a sprawling suburban ring",
+          "a hyper-connected tech hub",
+          "a quiet college town"
+        ]);
+      }
+
+      function fakeHotspot() {
+        return randomChoice([
+          "university area + late-night food streets",
+          "shopping district + subway lines",
+          "office parks + 24h gyms",
+          "campus libraries + off-campus bars"
+        ]);
+      }
+
+      function fakeCluster(content) {
+        const baseClusters = [
+          "sleep search / productivity guilt / kawaii aesthetics",
+          "music loops / cosplay feeds / flight deals",
+          "late-night scrolling / gacha / travel anxiety"
+        ];
+        if (content === "study") {
+          return "note-taking videos / productivity hacks / job anxiety";
+        }
+        if (content === "short-video") {
+          return "reaction clips / drama threads / impulse ads";
+        }
+        if (content === "gaming") {
+          return "gacha pulls / guides / meta tier lists";
+        }
+        if (content === "travel") {
+          return "Hokkaido snow / budget hostels / daydream itineraries";
+        }
+        return randomChoice(baseClusters);
+      }
+
+      function clamp(num, min, max) {
+        return Math.min(Math.max(num, min), max);
+      }
+
+      jumpBtn.addEventListener("click", function () {
+        document.getElementById("interface").scrollIntoView({
+          behavior: "smooth",
+        });
+      });
+
+      runBtn.addEventListener("click", function () {
+        if (scanning) return;
+        scanning = true;
+
+        const mood = getRadio("mood");
+        const screen = getRadio("screen");
+        const night = getRadio("night");
+        const social = getRadio("social");
+        const content = getRadio("content");
+        const procrast = getRadio("procrast");
+
+        const code = generateSubjectCode();
+        chipSubject.textContent = "#" + code;
+        subjectCodeSpan.textContent = "#" + code;
+
+        chipStatus.textContent = "scanning";
+        statusText.textContent = "Sampling small choices and filling in the blanks...";
+        progressInner.style.width = "0%";
+
+        forecastSection.style.display = "none";
+        consoleBox.innerHTML = "";
+
+        const device = fakeDevice();
+        const os = fakeOS();
+        const city = fakeCity();
+        const hotspot = fakeHotspot();
+        const cluster = fakeCluster(content);
+        const ip = fakeIP();
+
+        const steps = [
+          'linking session → subject_code="' + code + '"',
+          'ingesting mood_flag="' + mood + '"',
+          'screen_time_bucket → "' + screen + '"',
+          "night_owl → " + night,
+          "social_energy → " + social,
+          'content_loop → "' + content + '"',
+          'approx_ip → "' + ip + '"',
+          'city_cluster → "' + city + '"',
+          'session_window → 23:00–03:00 (local time)',
+          'content_cluster → "' + cluster + '"',
+          "confidence_update() → Δ +0.07",
+        ];
+
+        let idx = 0;
+
+        function appendLine(text) {
+          const line = document.createElement("div");
+          line.className = "console-line";
+          line.innerHTML =
+            '<span class="console-prefix">$</span> ' + text;
+          consoleBox.appendChild(line);
+          consoleBox.scrollTop = consoleBox.scrollHeight;
+        }
+
+        function step() {
+          if (idx < steps.length) {
+            appendLine(steps[idx]);
+            const pct = Math.round(((idx + 1) / (steps.length + 2)) * 100);
+            progressInner.style.width = pct + "%";
+            idx += 1;
+            setTimeout(step, 240);
+          } else {
+            // Compute scores based on answers
+            let sleepScore = 40;
+            if (night === "yes") sleepScore += 35;
+            else if (night === "depends") sleepScore += 25;
+            else sleepScore += 10;
+
+            if (screen === "6-9") sleepScore += 10;
+            else if (screen === "9plus") sleepScore += 20;
+
+            if (mood === "tired" || mood === "overwhelmed") sleepScore += 5;
+
+            let impulseScore = 30;
+            if (screen === "3-6") impulseScore += 10;
+            else if (screen === "6-9") impulseScore += 20;
+            else if (screen === "9plus") impulseScore += 25;
+
+            if (content === "short-video" || content === "gaming") {
+              impulseScore += 15;
+            }
+
+            let anxietyScore = 35;
+            if (mood === "overwhelmed") anxietyScore += 20;
+            else if (mood === "tired") anxietyScore += 10;
+
+            if (content === "study") anxietyScore += 10;
+            if (procrast === "heavy") anxietyScore += 15;
+            else if (procrast === "light") anxietyScore += 5;
+
+            let travelScore = 25;
+            if (content === "travel") travelScore += 35;
+            if (screen === "6-9" || screen === "9plus") travelScore += 10;
+            if (mood === "overwhelmed" || mood === "tired") travelScore += 5;
+
+            sleepScore = clamp(sleepScore + randomInt(-5, 5), 35, 95);
+            impulseScore = clamp(impulseScore + randomInt(-5, 5), 30, 95);
+            anxietyScore = clamp(anxietyScore + randomInt(-5, 5), 30, 90);
+            travelScore = clamp(travelScore + randomInt(-5, 5), 20, 90);
+
+            const confidence = randomInt(65, 90);
+
+            traitSleep.textContent = sleepScore + "%";
+            traitImpulse.textContent = impulseScore + "%";
+            traitAnxiety.textContent = anxietyScore + "%";
+            traitTravel.textContent = travelScore + "%";
+
+            deviceSummary.textContent = device + " · " + os;
+            locationSummary.textContent = city + " – " + hotspot;
+            confidenceSpan.textContent = confidence + "%";
+
+            progressInner.style.width = "100%";
+            statusText.textContent = "Model confidence updated.";
+            chipStatus.textContent = "online";
+
+            appendLine(
+              "profile_ready() → subject #" +
+                code +
+                " now tagged with updated risk / opportunity scores."
+            );
+
+            // Build forecast list dynamically from the scores
+            const items = [
+              sleepScore +
+                "% chance you will stay up past midnight at least three times this week “just to relax for a bit”.",
+              impulseScore +
+                "% chance you will add something to your cart after seeing it in a short video or post.",
+              anxietyScore +
+                "% chance you will search for “how to be more productive” and open at least one tab you never finish reading.",
+              travelScore +
+                "% chance you will browse flights or trains without actually booking anything."
+            ];
+
+            forecastList.innerHTML = items
+              .map(function (t) {
+                return "<li>" + t + "</li>";
+              })
+              .join("");
+
+            forecastSection.style.display = "block";
+            forecastSection.scrollIntoView({ behavior: "smooth" });
+
+            scanning = false;
+          }
+        }
+
+        appendLine(
+          "ready() → capturing self-reported mood, screen time, and avoidance levels..."
+        );
+        setTimeout(step, 260);
+      });
+    });
+  </script>
+</body>
+</html>
