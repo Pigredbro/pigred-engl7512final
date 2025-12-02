@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ALGO CAGE – Data Divination Console</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050716;
+      --accent: #3cffd0;
+      --accent2: #ff4b81;
+      --text: #f5f5f7;
+      --muted: #8b8ca7;
+      --border: #20223a;
+      --codebg: #060821;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #151a3b 0, #050716 55%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .logo {
+      letter-spacing: 0.24em;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .logo span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .hero-text {
+      flex: 1 1 260px;
+    }
+
+    .hero-badge {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      background-color: rgba(5, 7, 22, 0.9);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-badge::before {
+      content: "●";
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+
+    .hero-text h1 {
+      font-size: clamp(2.1rem, 4vw, 2.8rem);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-text p {
+      max-width: 36rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-actions {
+      margin-top: 1.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+      cursor: pointer;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 0.7rem 1.4rem;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: 0.18s ease-out all;
+    }
+
+    .btn-primary {
+      background: linear-gradient(120deg, var(--accent), #6af3ff);
+      color: #02030a;
+      font-weight: 600;
+      box-shadow: 0 0 25px rgba(60, 255, 208, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 35px rgba(60, 255, 208, 0.55);
+    }
+
+    .btn-ghost {
+      border-color: rgba(255, 255, 255, 0.15);
+      color: var(--muted);
+      background: rgba(5, 7, 22, 0.7);
+      text-decoration: none;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .hero-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+
+    .hero-meta strong {
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    .hero-right {
+      flex: 0 0 260px;
+      background: rgba(5, 7, 22, 0.85);
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      padding: 1rem 1.1rem;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(13, 19, 49, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+    }
+
+    .scan-heading {
+      font-size: 0.9rem;
+      margin-bottom: 0.1rem;
+    }
+
+    .scan-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.3rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .status-dot {
+      width: 0.6rem;
+      height: 0.6rem;
+      border-radius: 999px;
+      background: radial-gradient(
+        circle,
+        var(--accent) 0,
+        #00b398 55%,
+        transparent 70%
+      );
+      box-shadow: 0 0 8px rgba(60, 255, 208, 0.9);
+    }
+
+    .progress-bar {
+      height: 0.4rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .progress-inner {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 0.5s ease-out;
+    }
+
+    .console {
+      font-family: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Monaco,
+        monospace;
+      font-size: 0.78rem;
+      background: var(--codebg);
+      border-radius: 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.7rem 0.8rem;
+      max-height: 190px;
+      overflow: auto;
+      color: #e7f5ff;
+    }
+
+    .console-line {
+      margin-bottom: 0.15rem;
+      white-space: nowrap;
+    }
+
+    .console-prefix {
+      color: var(--accent);
+    }
+
+    .traits {
+      margin-top: 0.8rem;
+      border-radius: 0.7rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0.6rem 0.75rem;
+      background: rgba(9, 12, 34, 0.9);
+    }
+
+    .traits h3 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .trait-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.35rem;
+      font-size: 0.75rem;
+    }
+
+    .trait-label {
+      color: var(--muted);
+    }
+
+    .trait-value {
+      color: var(--accent2);
+      font-weight: 500;
+    }
+
+    main {
+      margin-top: 2.2rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 1.9rem;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        flex-direction: column;
+      }
+
+      .hero-right {
+        order: 2;
+      }
+    }
+
+    section {
+      background: rgba(5, 7, 22, 0.9);
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      padding: 1.3rem 1.4rem;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    section h2 {
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+    }
+
+    section p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .section-kicker {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .story-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.9rem;
+      margin-top: 0.9rem;
+    }
+
+    .story-card {
+      border-radius: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.8rem 0.9rem;
+      background: rgba(11, 14, 36, 0.9);
+      font-size: 0.8rem;
+    }
+
+    .story-card h3 {
+      font-size: 0.85rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    .pill span {
+      width: 0.4rem;
+      height: 0.4rem;
+      border-radius: 999px;
+      background: var(--accent2);
+      margin-right: 0.35rem;
+    }
+
+    .legals {
+      margin-top: 1.6rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .legals a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .legals a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="hero-text">
+        <div class="logo"><span>ALGO CAGE</span> SYSTEM ARCHIVE</div>
+        <div class="hero-badge">Transmedia experiment &nbsp; / &nbsp; Data fiction</div>
+        <h1>Data Divination Console</h1>
+        <p>
+          Every click, search, and swipe becomes a data point. This fictional
+          interface shows how an algorithm might turn those traces into a
+          prediction – and a cage.
+        </p>
+
+        <div class="hero-actions">
+          <button id="scan-btn" class="btn-primary">Start scan</button>
+          <a
+            class="btn-ghost"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read the full user report
+          </a>
+        </div>
+        <div class="hero-meta">
+          Part of the <strong>“Algorithmic Cage”</strong> transmedia project —
+          combining text, infographics, video, and this website.
+        </div>
+      </div>
+
+      <aside class="hero-right" aria-label="Data scan console">
+        <div class="chip-row">
+          <div class="chip">Subject: Pigred#20030603A1</div>
+          <div class="chip">Status: online</div>
+          <div class="chip">Model: v3.2 behavioural</div>
+        </div>
+
+        <div class="scan-heading">Behavioural shadow console</div>
+        <div class="scan-status">
+          <span id="status-text">Idle – waiting for input.</span>
+          <span class="status-dot" aria-hidden="true"></span>
+        </div>
+        <div class="progress-bar" aria-hidden="true">
+          <div class="progress-inner"></div>
+        </div>
+
+        <div
+          id="console"
+          class="console"
+          role="status"
+          aria-live="polite"
+          aria-label="synthetic log output"
+        >
+          <div class="console-line">
+            <span class="console-prefix">$</span> ready() →
+            awaiting behavioural samples...
+          </div>
+        </div>
+
+        <div class="traits">
+          <h3>Model prediction: next 30 days</h3>
+          <div class="trait-grid">
+            <div>
+              <div class="trait-label">Sleep disruption risk</div>
+              <div id="trait-sleep" class="trait-value">–</div>
+            </div>
+            <div>
+              <div class="trait-label">Impulse buying potential</div>
+              <div id="trait-impulse" class="trait-value">–</div>
+            </div>
+            <div>
+              <div class="trait-label">Algorithmic anxiety</div>
+              <div id="trait-anxiety" class="trait-value">–</div>
+            </div>
+            <div>
+              <div class="trait-label">Travel escape desire</div>
+              <div id="trait-travel" class="trait-value">–</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </header>
+
+    <main>
+      <section>
+        <div class="section-kicker">Story layer</div>
+        <h2>What you are looking at</h2>
+        <p>
+          This website is not collecting your real data. Instead, it stages an
+          interface inspired by the dashboards that silently watch us in the
+          background – estimating how long we scroll, when we can’t sleep, and
+          what we will buy next.
+        </p>
+        <p style="margin-top: 0.7rem;">
+          In the broader <em>Algorithmic Cage</em> storyworld, this console is
+          one of many ways to tell the same story: a user reduced to a file
+          name, a cluster of tags, and a set of probabilities. The written
+          report shows the cold language of an internal document. The video
+          zooms out to reveal millions of glowing points on a world map. This
+          site invites you to <strong>press the button yourself</strong> and
+          feel what it is like to be “read” by a model.
+        </p>
+      </section>
+
+      <section>
+        <div class="section-kicker">Explore more</div>
+        <h2>The rest of the transmedia project</h2>
+        <p>
+          Each medium adds a different piece to the same narrative. Follow the
+          links below to move across the storyworld.
+        </p>
+
+        <div class="story-cards">
+          <div class="story-card">
+            <h3>User report: Pigred#20030603A1</h3>
+            <p>
+              A confidential ALGO CAGE™ internal document that dissects a single
+              user as pure data – movement logs, app usage, search terms, and
+              risk scores.
+            </p>
+            <div class="pill">
+              <span></span>Text / PDF
+            </div>
+          </div>
+
+          <div class="story-card">
+            <h3>Monitoring video</h3>
+            <p>
+              From a search bar to a global night map filled with online
+              silhouettes, this short video moves from the benefits of big data
+              to its more unsettling consequences.
+            </p>
+            <div class="pill">
+              <span></span>Film / Motion
+            </div>
+          </div>
+
+          <div class="story-card">
+            <h3>Infographic &amp; mind map</h3>
+            <p>
+              Visual dashboards and a data mind map that show how a single human
+              life can be broken into nodes: devices, locations, relationships,
+              and algorithmic labels.
+            </p>
+            <div class="pill">
+              <span></span>Visual / Diagram
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="legals">
+      This site is a fictional prototype for a university project. No personal
+      data is actually collected or stored. Design and text by
+      <a href="#">Pigred</a>, 2025.
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const scanBtn = document.querySelector("#scan-btn");
+      const progressInner = document.querySelector(".progress-inner");
+      const statusText = document.querySelector("#status-text");
+      const consoleBox = document.querySelector("#console");
+
+      const traitValues = {
+        sleep: document.querySelector("#trait-sleep"),
+        impulse: document.querySelector("#trait-impulse"),
+        anxiety: document.querySelector("#trait-anxiety"),
+        travel: document.querySelector("#trait-travel"),
+      };
+
+      let scanning = false;
+
+      function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function randomChoice(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+      }
+
+      function fakeIP() {
+        return (
+          randomInt(11, 223) +
+          "." +
+          randomInt(0, 255) +
+          "." +
+          randomInt(0, 255) +
+          "." +
+          randomInt(1, 254)
+        );
+      }
+
+      function fakeDevice() {
+        return randomChoice([
+          "iPhone 17 Pro Max",
+          "Unknown iOS device",
+          "GlassOS node",
+        ]);
+      }
+
+      function fakeCity() {
+        return randomChoice(["Hong Kong", "Shenzhen", "Guangzhou"]);
+      }
+
+      function fakeCluster() {
+        return randomChoice([
+          "late-night scrolling / gacha / travel anxiety",
+          "sleep search / productivity guilt / kawaii aesthetics",
+          "music loops / cosplay feeds / flight deals",
+        ]);
+      }
+
+      scanBtn.addEventListener("click", function () {
+        if (scanning) return;
+        scanning = true;
+
+        progressInner.style.width = "0%";
+        consoleBox.innerHTML = "";
+        statusText.textContent = "Scanning behavioural shadow...";
+
+        const steps = [
+          'linking session → user_id="Pigred#20030603A1"',
+          'device_fingerprint → "' + fakeDevice() + '"',
+          'approx_ip → "' + fakeIP() + '"',
+          "city_cluster → " + '"' + fakeCity() + '"',
+          "session_window → 23:00–03:00 (local time)",
+          "content_cluster → " + '"' + fakeCluster() + '"',
+          "search_vector → ['sleep', 'Hokkaido', 'concert', 'gacha']",
+          "confidence_update() → Δ +0.07",
+        ];
+
+        let index = 0;
+
+        function addStep() {
+          if (index < steps.length) {
+            const line = document.createElement("div");
+            line.className = "console-line";
+            line.innerHTML =
+              '<span class="console-prefix">$</span> ' + steps[index];
+            consoleBox.appendChild(line);
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+
+            const pct = Math.round(((index + 1) / (steps.length + 2)) * 100);
+            progressInner.style.width = pct + "%";
+
+            index += 1;
+            setTimeout(addStep, 260);
+          } else {
+            // Final prediction scores
+            const sleepScore = randomInt(68, 92);
+            const impulseScore = randomInt(60, 89);
+            const anxietyScore = randomInt(55, 80);
+            const travelScore = randomInt(40, 88);
+
+            traitValues.sleep.textContent = sleepScore + "%";
+            traitValues.impulse.textContent = impulseScore + "%";
+            traitValues.anxiety.textContent = anxietyScore + "%";
+            traitValues.travel.textContent = travelScore + "%";
+
+            progressInner.style.width = "100%";
+            statusText.textContent = "Model confidence updated.";
+            scanning = false;
+          }
+        }
+
+        setTimeout(addStep, 220);
+      });
+    });
+  </script>
+</body>
+</html>
